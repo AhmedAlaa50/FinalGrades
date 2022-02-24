@@ -4,12 +4,20 @@ const number_of_students = document.querySelector("#students-count");
 const total_average = document.querySelector("#total-average");
 const records = document.querySelector("#records");
 
+const letters_generate = () => {
+    let letters_arr = [];
+    for(i = 97; i <= 122; i++) {
+        for(j = 65; j <= 90; j++) letters_arr.push([String.fromCharCode(i), String.fromCharCode(j)]);
+    }
+    return letters_arr;
+};
 
 slider.oninput = () => {
     number_of_students.innerHTML = slider.value;
 };
 
 btn.onclick = () => {
+    let letters = letters_generate();
     let students_records = [];
     records.innerHTML = "";
     
@@ -25,8 +33,16 @@ btn.onclick = () => {
             average: 0
         })
     }
-    
+
     students_records.forEach((student) => {
+        while(true)
+        {
+            var index = Math.floor(Math.random() * 676);
+            if(letters[index] == null) continue;
+            else break;
+        }
+        student.id = letters[index][1] + Math.floor(Math.random() * 999999) + letters[index][0];
+        letters[index] = null;
         student.average = (student.math + student.physics + student.chemistry + student.history + student.english) / 5;
     })
     total_average.innerHTML = students_records.reduce((sum, student_record) => sum + student_record.average, 0) / slider.value;
