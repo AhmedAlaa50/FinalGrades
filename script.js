@@ -11,18 +11,8 @@ slider.oninput = () => {
 };
 
 btn.onclick = () => {
-    records.innerHTML =  `
-        <li id="table-fields">
-                <span>ID</span>
-                <span>Name</span>
-                <span>Math</span>
-                <span>Physics</span>
-                <span>Chemistry</span>
-                <span>History</span>
-                <span>English</span>
-                <span>Average</span>
-            </li>
-    `;
+    records.innerHTML = "";
+    
     for(i = 0; i < slider.value; i++) {
         students_records.push({
             id: "0",
@@ -39,6 +29,10 @@ btn.onclick = () => {
     students_records.forEach((student) => {
         student.average = (student.math + student.physics + student.chemistry + student.history + student.english) / 5;
     })
+    total_average.innerHTML = students_records.reduce((sum, student_record) => sum + student_record.average, 0) / slider.value;
+    
+    students_records.sort((a, b) => b.average - a.average);
+
     records.innerHTML += students_records.reduce((acc, record) => {
         return acc + `<li>
         <span>${record.id}</span>
@@ -50,7 +44,18 @@ btn.onclick = () => {
         <span>${record.english}</span>
         <span>${record.average}</span>
         </li>`;
-    })
+    },
+    `<li id="table-fields">
+    <span>ID</span>
+    <span>Name</span>
+    <span>Math</span>
+    <span>Physics</span>
+    <span>Chemistry</span>
+    <span>History</span>
+    <span>English</span>
+    <span>Average</span>
+</li>
+`)
 };
 
 //sort reduce map forEach
