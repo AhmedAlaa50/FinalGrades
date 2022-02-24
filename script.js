@@ -41,16 +41,19 @@ btn.onclick = () => {
             if(letters[index] == null) continue;
             else break;
         }
-        student.id = letters[index][1] + Math.floor(Math.random() * 999999) + letters[index][0];
+        student.id = letters[index][1] + Math.floor(100000 + Math.random() * 888888) + letters[index][0];
         letters[index] = null;
         student.average = (student.math + student.physics + student.chemistry + student.history + student.english) / 5;
     })
-    total_average.innerHTML = students_records.reduce((sum, student_record) => sum + student_record.average, 0) / slider.value;
-    
-    students_records.sort((a, b) => b.average - a.average);
+    total_average.innerHTML = Math.floor(students_records.reduce((sum, student_record) => sum + student_record.average, 0) * 100 / slider.value) / 100;
+    const students_sorted = JSON.parse(JSON.stringify(students_records));
+    students_sorted.sort((a, b) => b.average - a.average);
 
     records.innerHTML += students_records.reduce((acc, record) => {
-        return acc + `<li>
+        let opening_tag = "<li>";
+        if(record.id == students_sorted[0].id) opening_tag = `<li style="background-color: rgb(37, 216, 31);">`;
+        else if(record.id == students_sorted[students_sorted.length - 1].id) opening_tag = `<li style="background-color: red;">`;
+        return acc + opening_tag + `
         <span>${record.id}</span>
         <span>${record.name}</span>
         <span>${record.math}</span>
@@ -73,5 +76,3 @@ btn.onclick = () => {
 </li>
 `)
 };
-
-//sort reduce map forEach
